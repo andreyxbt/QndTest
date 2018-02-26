@@ -20,8 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuandooApp extends Application {
 
+    // this is how often db will be cleaned by service
     public static final long DB_CLEAN_ALARM_SCHEDULE_MILLIS = 15 * 60_000L;
-    private static final long CACHE_TTL_MILLIS = 5 * 60 * 1000;
+    // this is just ttl for entities, may be adjusted to prevent reloading before db clearance.
+    private static final long CACHE_TTL_MILLIS = 5 * 60_000;
 
     private static QuandooApp instance;
 

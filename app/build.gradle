@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+
+android {
+    buildToolsVersion "27.0.3"
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.quandoo.quandootest"
+        minSdkVersion 15
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        test {
+            res.srcDirs = ['src/main/res', 'src/test/res']
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:design:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    //Lifecycle Architecture Components
+    implementation 'android.arch.lifecycle:extensions:1.1.0'
+    implementation 'android.arch.lifecycle:viewmodel:1.1.0'
+    implementation 'android.arch.lifecycle:livedata:1.1.0'
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
+    //Room
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+    //Paging
+    implementation 'android.arch.paging:runtime:1.0.0-alpha5'
+    //RxJava + RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.2'
+    //Test environment
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1';
+
+    androidTestImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+    androidTestImplementation 'com.squareup.okhttp3:mockwebserver:3.8.0'
+
+    testImplementation 'com.squareup.assertj:assertj-android:1.2.0'
+    testImplementation 'org.hamcrest:hamcrest-library:1.3'
+    testImplementation('org.robolectric:robolectric:3.7.1') {
+        exclude module: 'assertj-core'
+    }
+    testImplementation 'org.mockito:mockito-core:2.13.0'
+}

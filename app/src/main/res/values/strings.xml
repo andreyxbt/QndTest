@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">QuandooTest</string>
+    <string name="api_host">https://s3-eu-west-1.amazonaws.com</string>
+    <string name="db_name">quandoo_db</string>
+    <string name="page_tite_customers">Customers</string>
+    <string name="page_tite_tables">Tables</string>
+    <string name="item_table_number">Table %s</string>
+    <string name="item_table_free">Free</string>
+    <string name="item_table_reserved">Reserved</string>
+    <string name="item_table_reserved_by">Reserved: %s %s</string>
+    <string name="cache_helper_tables_key">tables</string>
+    <string name="cache_helper_customers_key">customers</string>
+</resources>

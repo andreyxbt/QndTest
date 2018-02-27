@@ -1,9 +1,8 @@
-package com.quandoo.quandootest.repository;
+package com.quandoo.quandootest.repository.network;
 
 import android.support.annotation.NonNull;
 
-import com.quandoo.quandootest.repository.network.CustomersApi;
-import com.quandoo.quandootest.repository.network.TablesApi;
+import com.quandoo.quandootest.repository.TableReservationGetaway;
 import com.quandoo.quandootest.repository.network.transport.CustomerApiEntity;
 import com.quandoo.quandootest.repository.network.transport.TableApiEntity;
 import com.quandoo.quandootest.repository.network.transport.TableApiHelper;

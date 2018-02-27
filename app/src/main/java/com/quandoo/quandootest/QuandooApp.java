@@ -4,19 +4,16 @@ import android.app.Application;
 import android.support.annotation.NonNull;
 
 import com.quandoo.quandootest.domain.interactor.Repository;
-import com.quandoo.quandootest.repository.CachePrefs;
+import com.quandoo.quandootest.repository.CacheHelper;
 import com.quandoo.quandootest.repository.RepositoryImpl;
-import com.quandoo.quandootest.repository.RetrofitTableReservationGetaway;
 import com.quandoo.quandootest.repository.TableReservationGetaway;
 import com.quandoo.quandootest.repository.alarm.QuandooAlarmManagerImpl;
-import com.quandoo.quandootest.repository.database.CacheHelper;
+import com.quandoo.quandootest.repository.database.CachePrefs;
+import com.quandoo.quandootest.repository.database.DatabaseFactoryImpl;
 import com.quandoo.quandootest.repository.database.QuandooDatabase;
-import com.quandoo.quandootest.repository.network.CustomersApi;
-import com.quandoo.quandootest.repository.network.TablesApi;
-
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
+import com.quandoo.quandootest.repository.network.RetrofitTableReservationGetawayFactory;
+import com.quandoo.quandootest.repository.providers.RepositoryProvider;
+import com.quandoo.quandootest.repository.providers.RepositoryProviderImpl;
 
 public class QuandooApp extends Application {
 
@@ -27,7 +24,7 @@ public class QuandooApp extends Application {
 
     private static QuandooApp instance;
 
-    private Repository repository;
+    private RepositoryProvider repositoryProvider;
 
     @NonNull
     public static QuandooApp getInstance() {
@@ -38,32 +35,43 @@ public class QuandooApp extends Application {
     public void onCreate() {
         instance = this;
         super.onCreate();
-        final Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(getString(R.string.api_host))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        final CustomersApi customersApi = retrofit.create(CustomersApi.class);
-        final TablesApi tablesApi = retrofit.create(TablesApi.class);
-        final CacheHelper tableCacheHelper = new CacheHelper(getString(R.string.cache_helper_tables_key), CachePrefs.from(this), CACHE_TTL_MILLIS);
-        final CacheHelper customerCacheHelper = new CacheHelper(getString(R.string.cache_helper_customers_key), CachePrefs.from(this), CACHE_TTL_MILLIS);
-        final TableReservationGetaway tableReservationGetaway = new RetrofitTableReservationGetaway(customersApi, tablesApi);
-        repository = new RepositoryImpl(
+
+        final CacheHelper tableCacheHelper = new CacheHelper(
+                getString(R.string.cache_helper_tables_key),
+                CachePrefs.from(this),
+                CACHE_TTL_MILLIS);
+
+        final CacheHelper customerCacheHelper = new CacheHelper(
+                getString(R.string.cache_helper_customers_key),
+                CachePrefs.from(this),
+                CACHE_TTL_MILLIS);
+
+        final QuandooDatabase quandooDatabase =
+                new DatabaseFactoryImpl(this, getString(R.string.db_name))
+                        .getDatabase();
+
+        final TableReservationGetaway tableReservationGetaway =
+                new RetrofitTableReservationGetawayFactory(getString(R.string.api_host))
+                        .getTimetableGataway();
+
+        final Repository repository = new RepositoryImpl(
                 tableReservationGetaway,
-                getDatabase(),
+                quandooDatabase,
                 tableCacheHelper,
                 customerCacheHelper,
                 QuandooAlarmManagerImpl.from(this)
         );
-    }
 
-    @NonNull
-    public QuandooDatabase getDatabase() {
-        return QuandooDatabase.getInstance(this);
+        repositoryProvider = new RepositoryProviderImpl(repository);
     }
 
     @NonNull
     public Repository getRepository() {
-        return repository;
+        return repositoryProvider.getRepository();
+    }
+
+    @NonNull
+    public RepositoryProvider getRepositoryProvider() {
+        return repositoryProvider;
     }
 }

@@ -1,4 +1,4 @@
-package com.quandoo.quandootest.repository;
+package com.quandoo.quandootest.repository.database;
 
 import android.content.Context;
 import android.content.SharedPreferences;

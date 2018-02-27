@@ -10,7 +10,6 @@ import com.quandoo.quandootest.domain.entities.Table;
 import com.quandoo.quandootest.domain.entities.TableAndCustomer;
 import com.quandoo.quandootest.domain.interactor.Repository;
 import com.quandoo.quandootest.repository.alarm.QuandooAlarmManager;
-import com.quandoo.quandootest.repository.database.CacheHelper;
 import com.quandoo.quandootest.repository.database.QuandooDatabase;
 
 import java.util.List;

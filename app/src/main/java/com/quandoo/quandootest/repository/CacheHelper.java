@@ -1,8 +1,8 @@
-package com.quandoo.quandootest.repository.database;
+package com.quandoo.quandootest.repository;
 
 import android.support.annotation.NonNull;
 
-import com.quandoo.quandootest.repository.CachePrefs;
+import com.quandoo.quandootest.repository.database.CachePrefs;
 
 
 public class CacheHelper {

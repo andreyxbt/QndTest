@@ -10,12 +10,16 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId "com.quandoo.quandootest.uitests"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
         }
     }
     compileOptions {
@@ -24,8 +28,11 @@ android {
     }
 
     sourceSets {
-        test {
-            res.srcDirs = ['src/main/res', 'src/test/res']
+        androidTest {
+            java.srcDirs = ['src/androidTest/java', 'src/mock/java']
+            java {
+                exclude('src/main/java/com/quandoo/quandootest/repository/providers/RepositoryProviderImpl.java')
+            }
         }
     }
 }
